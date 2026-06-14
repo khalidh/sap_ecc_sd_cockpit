@@ -6,6 +6,7 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 
 ## Contenu
 
+- `.abapgit.xml` et `abap/src/`: structure importable par abapGit.
 - `abap/src/zsd_cockpit_ecc_mvp.prog.abap`: version MVP ALV simple.
 - `abap/src/zsd_cockpit_ecc.prog.abap`: version complete avec navigation.
 - `abap/src/zcl_sd_cockpit_*.clas.abap`: classes ABAP Objects pour types, DAO, ALV et orchestration.
@@ -14,10 +15,12 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 
 ## Demarrage rapide
 
-1. Creer les objets ABAP dans Eclipse ADT.
-2. Activer les classes, puis les programmes.
-3. Tester d'abord `ZSD_COCKPIT_ECC_MVP`.
-4. Creer la transaction `ZSD_COCKPIT` sur le programme `ZSD_COCKPIT_ECC`.
-5. Creer le statut GUI `ZSD_COCKPIT` avec les function codes `ZFLOW`, `ZDELV`, `ZBILL`.
+1. Dans abapGit, connecter ce depot au package `ZSAP_ECC_SD_COCKPIT`.
+2. Verifier que le depot utilise le dossier de depart `/abap/src/` et la logique `PREFIX`.
+3. Faire `Pull`.
+4. Activer les classes, puis les programmes.
+5. Tester d'abord `ZSD_COCKPIT_ECC_MVP`.
+6. Creer la transaction `ZSD_COCKPIT` sur le programme `ZSD_COCKPIT_ECC`.
+7. Creer le statut GUI `ZSD_COCKPIT` avec les function codes `ZFLOW`, `ZDELV`, `ZBILL`.
 
 Voir le guide complet: [abap/docs/README_ZSAP_SD_COCKPIT_ECC.md](abap/docs/README_ZSAP_SD_COCKPIT_ECC.md).
