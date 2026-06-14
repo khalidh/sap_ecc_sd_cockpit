@@ -2,6 +2,8 @@
 
 Application ABAP ECC `ZSAP_SD_COCKPIT_ECC` pour cockpit SD executable en SAP GUI classique et SAP GUI for HTML/WebGUI.
 
+Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
+
 ## Contenu
 
 - `abap/src/zsd_cockpit_ecc_mvp.prog.abap`: version MVP ALV simple.
