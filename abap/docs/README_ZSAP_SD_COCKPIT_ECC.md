@@ -32,7 +32,12 @@ Pour un statut SD complet, ajouter une jointure optionnelle sur `VBUK` avec `LFS
 
 ## Sources
 
-Importer/creer les objets ADT avec les contenus suivants:
+Le depot est maintenant structure pour abapGit:
+
+- `.abapgit.xml`: configuration abapGit.
+- `abap/src/`: objets ABAP serialises pour import abapGit.
+
+Importer via abapGit depuis `abap/src/`, ou creer manuellement les objets ADT avec les contenus suivants:
 
 - `abap/src/zcl_sd_cockpit_types.clas.abap`
 - `abap/src/zcx_sd_cockpit.clas.abap`
@@ -62,6 +67,20 @@ Ordre conseille:
 6. Activer d'abord les classes, puis les programmes.
 7. Lancer `ZSD_COCKPIT_ECC_MVP` pour valider rapidement les donnees et ALV.
 8. Creer le statut GUI `ZSD_COCKPIT` pour la version navigable.
+
+## Installation avec abapGit
+
+1. Ouvrir la vue abapGit dans Eclipse ADT.
+2. Ajouter le depot `https://github.com/khalidh/sap_ecc_sd_cockpit.git`.
+3. Choisir le package `ZSAP_ECC_SD_COCKPIT`.
+4. Utiliser la branche `main`.
+5. Verifier la configuration:
+   - Starting folder: `/abap/src/`
+   - Folder logic: `PREFIX`
+6. Lancer `Pull`.
+7. Activer les objets dans cet ordre: classes, puis programmes.
+
+Important: le code utilise ABAP ECC classique (`TABLES`, `REUSE_ALV_GRID_DISPLAY`, tables SD directes). Si ton package est en `ABAP for Cloud Development`, repasse-le si possible en ABAP standard/classique, sinon tu risques des erreurs d'activation non liees a abapGit.
 
 ## Statut GUI pour la version navigable
 
