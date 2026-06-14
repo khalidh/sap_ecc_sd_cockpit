@@ -4,7 +4,7 @@ CLASS zcl_sdc_dao DEFINITION
   PUBLIC SECTION.
     TYPES:
       ty_vbeln TYPE c LENGTH 10,
-      ty_posnr TYPE n LENGTH 6,
+      ty_posnr TYPE n LENGTH 6.
 
     TYPES:
       BEGIN OF ty_order,
@@ -49,20 +49,22 @@ CLASS zcl_sdc_dao DEFINITION
       END OF ty_flow,
       ty_flows TYPE STANDARD TABLE OF ty_flow WITH EMPTY KEY.
 
-    METHODS get_orders
+    CLASS-METHODS get_orders
       RETURNING VALUE(rt_orders) TYPE ty_orders.
 
-    METHODS get_items
+    CLASS-METHODS get_items
       IMPORTING iv_vbeln TYPE ty_vbeln
       RETURNING VALUE(rt_items) TYPE ty_items.
 
-    METHODS get_docflow
+    CLASS-METHODS get_docflow
       IMPORTING iv_vbeln TYPE ty_vbeln
       RETURNING VALUE(rt_flow) TYPE ty_flows.
 ENDCLASS.
 
 CLASS zcl_sdc_dao IMPLEMENTATION.
   METHOD get_orders.
+    FIELD-SYMBOLS <order> TYPE ty_order.
+
     SELECT FROM zsdc_vbak AS h
       LEFT OUTER JOIN zsdc_kna1 AS c ON c~kunnr = h~kunnr
       FIELDS h~vbeln, h~audat, h~kunnr, c~name1,
@@ -71,7 +73,7 @@ CLASS zcl_sdc_dao IMPLEMENTATION.
       ORDER BY h~vbeln
       INTO CORRESPONDING FIELDS OF TABLE @rt_orders.
 
-    LOOP AT rt_orders ASSIGNING FIELD-SYMBOL(<order>).
+    LOOP AT rt_orders ASSIGNING <order>.
       SELECT COUNT( * )
         FROM zsdc_vbap
         WHERE vbeln = @<order>-vbeln
