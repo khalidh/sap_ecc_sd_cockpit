@@ -7,6 +7,7 @@ Cockpit SAP SD pour SAP ECC, executable en SAP GUI classique et SAP GUI for HTML
 Objet transactionnel:
 
 - Transaction: `ZSD_COCKPIT`
+- Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`
 - Programme principal navigable: `ZSD_COCKPIT_ECC`
 - Programme MVP minimal: `ZSD_COCKPIT_ECC_MVP`
 - Classe types: `ZCL_SD_COCKPIT_TYPES`
@@ -54,7 +55,7 @@ Ordre conseille:
 ## Installation dans Eclipse ADT
 
 1. Ouvrir le projet ABAP ECC dans Eclipse ADT.
-2. Creer un package, par exemple `ZSAP_SD_COCKPIT_ECC`.
+2. Creer ou reutiliser le package `ZSAP_ECC_SD_COCKPIT`.
 3. Creer les classes globales avec les noms exacts ci-dessus.
 4. Coller chaque source `.clas.abap` dans la classe correspondante.
 5. Creer les programmes executables `ZSD_COCKPIT_ECC_MVP` et `ZSD_COCKPIT_ECC`.
@@ -89,7 +90,7 @@ Sans ce statut GUI, utiliser le programme MVP ou retirer temporairement `i_callb
 3. Type: transaction de programme avec ecran de selection.
 4. Programme: `ZSD_COCKPIT_ECC`.
 5. Cocher `SAP GUI for HTML` si le systeme propose la classification GUI support.
-6. Sauvegarder dans le package `ZSAP_SD_COCKPIT_ECC`.
+6. Sauvegarder dans le package `ZSAP_ECC_SD_COCKPIT`.
 
 Transaction MVP optionnelle:
 
