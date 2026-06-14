@@ -23,21 +23,16 @@ Separation:
 - `ZCL_SD_COCKPIT_ALV`: field catalog et affichage `REUSE_ALV_GRID_DISPLAY`, choisi pour une compatibilite ECC/WebGUI plus large.
 - `ZCL_SD_COCKPIT_APP`: logique de navigation: commande -> postes -> echeances, et commandes toolbar vers flux/livraisons/factures.
 
-Les statuts livraison/facturation sont derives de `VBFA`:
-
-- `A`: aucun document suivant trouve.
-- `C`: document suivant trouve (`J` livraison, `M` facture).
-
-Pour un statut SD complet, ajouter une jointure optionnelle sur `VBUK` avec `LFSTK` et `FKSTK` si le systeme cible autorise cette table dans le perimetre.
-
 ## Sources
 
-Le depot est maintenant structure pour abapGit:
+Le depot est structure en deux zones:
 
-- `.abapgit.xml`: configuration abapGit.
-- `abap/src/`: objets ABAP serialises pour import abapGit.
+- `cloud/src/`: version ABAP Cloud/BTP importable par abapGit dans ton systeme actuel.
+- `abap/src/`: version ECC classique documentaire, utile pour un futur vrai systeme ECC/S/4 on-premise.
 
-Importer via abapGit depuis `abap/src/`, ou creer manuellement les objets ADT avec les contenus suivants:
+Importer via abapGit depuis `cloud/src/` dans ton systeme actuel.
+
+La version ECC classique contient les objets suivants:
 
 - `abap/src/zcl_sd_cockpit_types.clas.abap`
 - `abap/src/zcx_sd_cockpit.clas.abap`
@@ -47,27 +42,6 @@ Importer via abapGit depuis `abap/src/`, ou creer manuellement les objets ADT av
 - `abap/src/zsd_cockpit_ecc.prog.abap`
 - `abap/src/zsd_cockpit_ecc_mvp.prog.abap`
 
-Ordre conseille:
-
-1. `ZCL_SD_COCKPIT_TYPES`
-2. `ZCX_SD_COCKPIT`
-3. `ZCL_SD_COCKPIT_DAO`
-4. `ZCL_SD_COCKPIT_ALV`
-5. `ZCL_SD_COCKPIT_APP`
-6. `ZSD_COCKPIT_ECC_MVP`
-7. `ZSD_COCKPIT_ECC`
-
-## Installation dans Eclipse ADT
-
-1. Ouvrir le projet ABAP ECC dans Eclipse ADT.
-2. Creer ou reutiliser le package `ZSAP_ECC_SD_COCKPIT`.
-3. Creer les classes globales avec les noms exacts ci-dessus.
-4. Coller chaque source `.clas.abap` dans la classe correspondante.
-5. Creer les programmes executables `ZSD_COCKPIT_ECC_MVP` et `ZSD_COCKPIT_ECC`.
-6. Activer d'abord les classes, puis les programmes.
-7. Lancer `ZSD_COCKPIT_ECC_MVP` pour valider rapidement les donnees et ALV.
-8. Creer le statut GUI `ZSD_COCKPIT` pour la version navigable.
-
 ## Installation avec abapGit
 
 1. Ouvrir la vue abapGit dans Eclipse ADT.
@@ -75,132 +49,15 @@ Ordre conseille:
 3. Choisir le package `ZSAP_ECC_SD_COCKPIT`.
 4. Utiliser la branche `main`.
 5. Verifier la configuration:
-   - Starting folder: `/abap/src/`
+   - Starting folder: `/cloud/src/`
    - Folder logic: `PREFIX`
 6. Lancer `Pull`.
-7. Activer les objets dans cet ordre: classes, puis programmes.
+7. Activer les tables `ZSDC_*`, puis les classes `ZCL_SDC_*`.
+8. Executer `ZCL_SDC_SEED` avec F9 pour charger les donnees.
+9. Executer `ZCL_SDC_CONSOLE` avec F9 pour afficher le cockpit.
 
-Important: le code utilise ABAP ECC classique (`TABLES`, `REUSE_ALV_GRID_DISPLAY`, tables SD directes). Si ton package est en `ABAP for Cloud Development`, repasse-le si possible en ABAP standard/classique, sinon tu risques des erreurs d'activation non liees a abapGit.
+La version `cloud/src/` evite `VBAK`, `TABLES`, `SELECTION-SCREEN` et `REUSE_ALV_GRID_DISPLAY`. Elle utilise des tables locales `ZSDC_*` pour simuler ECC dans ABAP Cloud.
 
-## Statut GUI pour la version navigable
+## Notes ECC classique
 
-La version `ZSD_COCKPIT_ECC` appelle:
-
-```abap
-SET PF-STATUS 'ZSD_COCKPIT'.
-```
-
-Creer ce statut dans SE80 ou SE41 pour le programme `ZSD_COCKPIT_ECC`.
-
-Ajouter au minimum ces boutons applicatifs:
-
-- Texte: `Flux document`, function code: `ZFLOW`
-- Texte: `Livraisons`, function code: `ZDELV`
-- Texte: `Factures`, function code: `ZBILL`
-
-Conserver les fonctions standards ALV utiles: retour, quitter, annuler, tri, filtre, export, variante.
-
-Sans ce statut GUI, utiliser le programme MVP ou retirer temporairement `i_callback_pf_status_set` dans `ZCL_SD_COCKPIT_ALV`.
-
-## Creation transaction SE93
-
-1. Aller dans `SE93`.
-2. Creer `ZSD_COCKPIT`.
-3. Type: transaction de programme avec ecran de selection.
-4. Programme: `ZSD_COCKPIT_ECC`.
-5. Cocher `SAP GUI for HTML` si le systeme propose la classification GUI support.
-6. Sauvegarder dans le package `ZSAP_ECC_SD_COCKPIT`.
-
-Transaction MVP optionnelle:
-
-- Transaction: `ZSD_COCKPIT_MVP`
-- Programme: `ZSD_COCKPIT_ECC_MVP`
-
-## Execution SAP GUI
-
-1. Lancer `/nZSD_COCKPIT`.
-2. Renseigner `VKORG`, `VTWEG`, `SPART`, `KUNNR`, `VBELN`, `AUDAT`.
-3. Statuts:
-   - `A`: aucun document suivant derive.
-   - `C`: document suivant trouve.
-4. Executer.
-5. Double-cliquer une commande pour afficher les postes `VBAP`.
-6. Double-cliquer un poste pour afficher les echeances `VBEP`.
-7. Utiliser les boutons `Flux document`, `Livraisons`, `Factures`.
-
-## Execution WebGUI
-
-URL generale:
-
-```text
-https://<host>:<port>/sap/bc/gui/sap/its/webgui
-```
-
-Puis lancer la transaction:
-
-```text
-/nZSD_COCKPIT
-```
-
-URL directe typique:
-
-```text
-https://<host>:<port>/sap/bc/gui/sap/its/webgui?~transaction=ZSD_COCKPIT
-```
-
-Pre-requis:
-
-- Service SICF `/sap/bc/gui/sap/its/webgui` actif.
-- Parametrage ITS/WebGUI operationnel.
-- Autorisations utilisateur SD et transaction.
-
-## Version MVP
-
-`ZSD_COCKPIT_ECC_MVP` est volontairement simple:
-
-- Selection principale.
-- Jointure `VBAK`/`VBAP`/`KNA1`.
-- Synthese ALV.
-- Aucun statut GUI custom.
-- Pas de navigation.
-
-Elle sert a verifier rapidement la compilation, les autorisations de lecture et la compatibilite ALV.
-
-## Version amelioree
-
-`ZSD_COCKPIT_ECC` ajoute:
-
-- Architecture OO.
-- Controle d'autorisation `V_VBAK_VKO` en affichage.
-- Derivation livraison/facture via `VBFA`.
-- Navigation ALV:
-  - Double-clic commande -> postes.
-  - Double-clic poste -> echeances.
-  - Boutons -> flux, livraisons, factures.
-
-## Limites connues WebGUI
-
-- `REUSE_ALV_GRID_DISPLAY` est generalement plus tolerant que `CL_GUI_ALV_GRID` custom, mais certaines fonctions frontend peuvent varier selon le patch SAP GUI for HTML.
-- Les boutons custom dependent du statut GUI `ZSD_COCKPIT`.
-- Les popups, menus contextuels et exports locaux peuvent etre limites selon la configuration ITS.
-- `CL_GUI_ALV_GRID` dans un custom container peut fonctionner en WebGUI, mais demande un dynpro 0100 et plus de tests de rendu.
-- Les statuts derives via `VBFA` ne remplacent pas completement `VBUK-LFSTK` et `VBUK-FKSTK`.
-
-## Adaptations futures Fiori/SAP BTP
-
-Chemin de migration possible:
-
-- Exposer la logique DAO via un module fonction RFC ou une classe API stable.
-- Remplacer le programme ALV par un service OData Gateway SEGW en ECC.
-- Sur S/4HANA, migrer vers CDS/RAP avec vues de consommation SD.
-- Sur SAP BTP, rebatir l'UI en SAPUI5 freestyle ou Fiori Elements.
-- Garder les structures de sortie proches de `TY_S_ORDER`, `TY_S_ITEM`, `TY_S_SCHEDULE` pour limiter l'impact UI.
-
-## Notes de qualite
-
-- Pas de `SELECT *`.
-- Pas de CDS obligatoire.
-- Pas de RAP, CAP, Fiori Elements ou BTP.
-- Open SQL classique.
-- `FOR ALL ENTRIES` utilise seulement apres controle implicite de resultat non vide.
-- Les jointures principales sont indexables si `VBAK-VBELN`, `VBAP-VBELN`, `VBFA-VBELV`, `LIPS-VGBEL`, `VBRP-AUBEL` sont correctement indexes dans le systeme.
+La version `abap/src/` reste disponible pour un futur vrai SAP ECC ou S/4HANA on-premise avec SD installe. Elle ne doit pas etre importee dans ton environnement ABAP Cloud actuel.
