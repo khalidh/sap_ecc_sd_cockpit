@@ -1,0 +1,4 @@
+{
+    "cds.workspaceValidationMode": "ActiveEditorOnly",
+    "cds.workspace.scanDependentModules": false
+}

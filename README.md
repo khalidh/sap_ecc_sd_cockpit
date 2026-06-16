@@ -12,7 +12,10 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 - `cloud/src/zcl_sdc_console.clas.abap`: cockpit console executable dans ADT.
 - `abap/src/zsd_cockpit_ecc_mvp.prog.abap`: version MVP ALV simple.
 - `abap/src/zsd_cockpit_ecc.prog.abap`: version complete avec navigation.
+- `abap/src/zsd_cockpit_ecc_seed.prog.abap`: charge des donnees de demonstration dans les tables `ZSDC_*`.
+- `abap/src/zsd_cockpit_ecc_like.prog.abap`: cockpit ALV ECC-like base sur les tables `ZSDC_*`, sans Fiori/RAP/CDS.
 - `abap/src/zcl_sd_cockpit_*.clas.abap`: classes ABAP Objects pour types, DAO, ALV et orchestration.
+- `abap/src/zcx_sd_cockpit.clas.abap`: classe exception.
 - `abap/docs/README_ZSAP_SD_COCKPIT_ECC.md`: guide d'architecture, installation ADT, SE93, SAP GUI et WebGUI.
 
 ## Demarrage rapide
@@ -24,4 +27,13 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 5. Executer `ZCL_SDC_SEED` avec F9 pour charger les donnees.
 6. Executer `ZCL_SDC_CONSOLE` avec F9 pour afficher le cockpit.
 
-Voir le guide Cloud: [cloud/docs/README_ECC_LIKE_CLOUD.md](cloud/docs/README_ECC_LIKE_CLOUD.md).
+## Mode ECC-like pur SAP GUI
+
+Pour tester avec des outils SAP ECC classiques, importer `abap/src/` dans un systeme ECC/S/4 sandbox puis executer:
+
+1. `ZSD_COCKPIT_ECC_SEED` dans `SE38` ou `SA38`.
+2. `ZSD_COCKPIT_ECC_LIKE` dans `SE38` ou `SA38`.
+
+Cette variante utilise uniquement les tables locales `ZSDC_*` et un ALV `REUSE_ALV_GRID_DISPLAY`.
+
+Voir le guide complet: [abap/docs/README_ZSAP_SD_COCKPIT_ECC.md](abap/docs/README_ZSAP_SD_COCKPIT_ECC.md).

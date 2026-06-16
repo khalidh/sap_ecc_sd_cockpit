@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_SDC_SEED</CLSNAME>
+    <CLSNAME>ZCX_SD_COCKPIT</CLSNAME>
     <LANGU>F</LANGU>
-    <DESCRIPT>Load ECC-like SD demo data</DESCRIPT>
+    <DESCRIPT>Exception cockpit SD ECC</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
