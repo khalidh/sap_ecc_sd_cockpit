@@ -1,0 +1,7 @@
+@EndUserText.label: 'SD Cockpit Service'
+define service ZUI_SDC_COCKPIT {
+  expose ZC_SDC_SalesOrder     as SalesOrder;
+  expose ZI_SDC_SalesOrderItem as SalesOrderItem;
+  expose ZI_SDC_DocumentFlow   as DocumentFlow;
+  expose ZI_SDC_Customer       as Customer;
+}

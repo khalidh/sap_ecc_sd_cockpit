@@ -1,0 +1,13 @@
+{
+  "name": "sd-cockpit-fiori",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fiori Elements List Report for the ECC-like SD Cockpit OData V4 service.",
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --clean-dest"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^4.0.0"
+  }
+}

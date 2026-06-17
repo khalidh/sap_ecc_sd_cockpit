@@ -1,0 +1,91 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "zsdc.cockpit",
+    "type": "application",
+    "title": "SD Cockpit",
+    "description": "ECC-like SD cockpit with sales orders, items, and document flow.",
+    "applicationVersion": {
+      "version": "0.1.0"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zui_sdc_cockpit_o4/srvd/sap/zui_sdc_cockpit/0001/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.fe.templates": {},
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "SalesOrderList",
+          "target": "SalesOrderList"
+        },
+        {
+          "pattern": "SalesOrder({key}):?query:",
+          "name": "SalesOrderObjectPage",
+          "target": "SalesOrderObjectPage"
+        }
+      ],
+      "targets": {
+        "SalesOrderList": {
+          "type": "Component",
+          "id": "SalesOrderList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/SalesOrder",
+              "variantManagement": "Page"
+            }
+          }
+        },
+        "SalesOrderObjectPage": {
+          "type": "Component",
+          "id": "SalesOrderObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/SalesOrder"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
