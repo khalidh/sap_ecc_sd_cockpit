@@ -2,6 +2,8 @@
 
 Application d'entrainement SD "ECC-like" pour ABAP Cloud/BTP, avec une copie documentaire de la version ECC classique.
 
+Cette branche `exercise-tables-only` est volontairement limitee aux tables et classes de base. Elle sert a t'exercer a creer toi-meme la couche CDS, le service OData V4 et l'application Fiori Elements.
+
 Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 
 ## Contenu
@@ -10,9 +12,6 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 - `cloud/src/zsdc_*.tabl.xml`: tables locales simulant `KNA1`, `VBAK`, `VBAP`, `VBFA`.
 - `cloud/src/zcl_sdc_seed.clas.abap`: charge des donnees SD de demonstration.
 - `cloud/src/zcl_sdc_console.clas.abap`: cockpit console executable dans ADT.
-- `cloud/src/ZI_*/ZC_*`: vues CDS pour exposer les commandes SD en OData.
-- `cloud/src/zui_sdc_cockpit.*`: service definition et service binding OData V4 pour Fiori Elements.
-- `app/sd-cockpit-fiori/`: squelette Fiori Elements List Report/Object Page sur le service SD Cockpit.
 - `abap/src/zsd_cockpit_ecc_mvp.prog.abap`: version MVP ALV simple.
 - `abap/src/zsd_cockpit_ecc.prog.abap`: version complete avec navigation.
 - `abap/src/zsd_cockpit_ecc_seed.prog.abap`: charge des donnees de demonstration dans les tables `ZSDC_*`.
@@ -29,8 +28,17 @@ Package ADT conseille: `ZSAP_ECC_SD_COCKPIT`.
 4. Activer les tables `ZSDC_*`, puis les classes `ZCL_SDC_*`.
 5. Executer `ZCL_SDC_SEED` avec F9 pour charger les donnees.
 6. Executer `ZCL_SDC_CONSOLE` avec F9 pour afficher le cockpit.
-7. Activer les vues CDS `ZI_SDC_*`, `ZC_SDC_SALES_ORDER`, puis `ZUI_SDC_COCKPIT` et `ZUI_SDC_COCKPIT_O4`.
-8. Publier le service binding `ZUI_SDC_COCKPIT_O4`, puis utiliser l'app `app/sd-cockpit-fiori/` ou generer une app Fiori Elements avec Fiori tools.
+
+## Exercice a realiser
+
+Cette branche ne contient pas encore les objets suivants. C'est a toi de les creer avec VS Code et ADT:
+
+1. Vues CDS interface: `ZI_SDC_CUSTOMER`, `ZI_SDC_SALES_ORDER`, `ZI_SDC_SALES_ORDER_ITEM`, `ZI_SDC_DOCUMENT_FLOW`.
+2. Vue CDS consumption: `ZC_SDC_SALES_ORDER`.
+3. Annotations UI pour List Report/Object Page.
+4. Service definition: `ZUI_SDC_COCKPIT`.
+5. Service binding OData V4: `ZUI_SDC_COCKPIT_O4`.
+6. Application Fiori Elements basee sur l'entite principale `SalesOrder`.
 
 ## Mode ECC-like pur SAP GUI
 

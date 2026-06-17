@@ -1,6 +1,8 @@
-# ECC-like SD Simulator for ABAP Cloud
+# ECC-like SD Simulator for ABAP Cloud - Tables Only
 
-Cette version simule un mini SD ECC dans ton environnement ABAP Cloud/BTP.
+Cette branche simule un mini SD ECC dans ton environnement ABAP Cloud/BTP.
+
+Elle est volontairement incomplete: elle contient les tables et les classes de base, mais pas encore les vues CDS, le service OData V4 ni l'application Fiori Elements. Le but est de t'entrainer a construire cette couche toi-meme.
 
 ## Objets
 
@@ -11,13 +13,6 @@ Cette version simule un mini SD ECC dans ton environnement ABAP Cloud/BTP.
 - `ZCL_SDC_DAO`: acces donnees.
 - `ZCL_SDC_SEED`: chargement des donnees de demonstration.
 - `ZCL_SDC_CONSOLE`: cockpit executable dans ADT.
-- `ZI_SDC_CUSTOMER`: vue CDS client.
-- `ZI_SDC_SALES_ORDER`: vue CDS racine commande.
-- `ZI_SDC_SALES_ORDER_ITEM`: vue CDS postes.
-- `ZI_SDC_DOCUMENT_FLOW`: vue CDS flux documentaire.
-- `ZC_SDC_SALES_ORDER`: vue consumption annotee pour Fiori Elements.
-- `ZUI_SDC_COCKPIT`: service definition.
-- `ZUI_SDC_COCKPIT_O4`: service binding OData V4.
 
 ## Execution
 
@@ -27,34 +22,24 @@ Cette version simule un mini SD ECC dans ton environnement ABAP Cloud/BTP.
 4. Executer `ZCL_SDC_SEED` avec F9.
 5. Executer `ZCL_SDC_CONSOLE` avec F9.
 
-## Fiori Elements
+## Exercice CDS et Fiori Elements
 
-Le service read-only expose les entites suivantes:
+Apres avoir valide les tables et la console, cree progressivement:
 
-- `SalesOrder`: liste principale basee sur `ZC_SDC_SALES_ORDER`.
-- `SalesOrderItem`: postes de commande.
-- `DocumentFlow`: flux documentaire simplifie.
-- `Customer`: clients.
+1. `ZI_SDC_CUSTOMER`: vue CDS client.
+2. `ZI_SDC_SALES_ORDER`: vue CDS racine commande.
+3. `ZI_SDC_SALES_ORDER_ITEM`: vue CDS postes.
+4. `ZI_SDC_DOCUMENT_FLOW`: vue CDS flux documentaire.
+5. `ZC_SDC_SALES_ORDER`: vue consumption annotee pour Fiori Elements.
+6. `ZUI_SDC_COCKPIT`: service definition.
+7. `ZUI_SDC_COCKPIT_O4`: service binding OData V4.
+8. Une app Fiori Elements List Report/Object Page sur `SalesOrder`.
 
-Ordre conseille apres import abapGit:
-
-1. Activer les tables `ZSDC_*`.
-2. Activer les vues `ZI_SDC_*`.
-3. Activer `ZC_SDC_SALES_ORDER`.
-4. Activer `ZUI_SDC_COCKPIT`.
-5. Activer puis publier `ZUI_SDC_COCKPIT_O4`.
-6. Executer `ZCL_SDC_SEED` si les tables sont vides.
-
-URL OData V4 typique apres publication:
+URL OData V4 typique attendue apres publication:
 
 ```text
 /sap/opu/odata4/sap/zui_sdc_cockpit_o4/srvd/sap/zui_sdc_cockpit/0001/
 ```
-
-Deux options d'interface:
-
-- utiliser le squelette `app/sd-cockpit-fiori/`;
-- ou lancer Fiori tools et creer une application Fiori Elements List Report/Object Page sur l'entite `SalesOrder`.
 
 Dans Fiori tools:
 
